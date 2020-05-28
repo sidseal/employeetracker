@@ -1,0 +1,26 @@
+{
+  "name": "employeetracker",
+  "version": "1.0.0",
+  "description": "Node app to interact with mysql server to execute certain functions in a work based environment.",
+  "main": "index.js",
+  "scripts": {
+    "test": "none"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sidseal/employeetracker.git"
+  },
+  "author": "sid seal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sidseal/employeetracker/issues"
+  },
+  "homepage": "https://github.com/sidseal/employeetracker#readme",
+  "dependencies": {
+    "-": "0.0.1",
+    "dotenv": "^8.2.0",
+    "inquirer": "^7.1.0",
+    "mysql": "^2.18.1",
+    "save": "^2.4.0"
+  }
+}
