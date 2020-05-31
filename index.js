@@ -2,7 +2,6 @@ const inquirer = require("inquirer");
 const mysql = require("mysql");
 require('dotenv').config()
 
-
 const connection = mysql.createConnection({
     host: "localhost",
   
@@ -16,7 +15,6 @@ const connection = mysql.createConnection({
     password: process.env.MYSQL_PASS,
     database: "emptracker_db"
   });
-  
   
   connection.connect(function(err) {
     if (err) throw err;
