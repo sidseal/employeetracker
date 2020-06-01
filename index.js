@@ -26,22 +26,46 @@ const connection = mysql.createConnection({
   function start() {
     inquirer
       .prompt({
-        name: "Whichthing",
+        name: "start",
         type: "list",
-        message: "Which thing....?",
-        choices: ["POST", "BID", "EXIT"]
+        message: "What would you like to do?",
+        choices: ["View All Employees","View All Departments","View All Roles","Add an Employee", "Update an Employee",
+      "Add a Role"],
       })
       .then(function(answer) {
-        if (answer.Whichthing === "POST"){
-           return viewAllEmployees()
+        switch (answer.start){
+          case "View All Employees":
+            viewAllEmployees();
+            break;
+        case "View All Departments":
+            viewAllDepts();
+            break;
+        case "View All Roles":
+            viewAllRoles();
+            break;
+        case "Add an Employee":
+                addEmployee();
+                break;
+        case "Update an Employee":
+                updateEmployee();
+                break;
+        case "Add a Role":
+                addRole();
+                break;
+        default: error()        
         }
     });
 }
 
+function error(){
+  console.log("You must pick an action to continue")
+}
+
 function viewAllEmployees(){
-    connection.query("SELECT * FROM employee", function(err,sults){
+    connection.query("SELECT * FROM employee", function(err,results){
         if (err)throw err
-        console.table(sults)
-        goAgain()
+        console.table(results)
+        start()
     })
 }
+
