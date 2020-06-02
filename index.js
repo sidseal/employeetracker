@@ -29,7 +29,7 @@ function start() {
       type: "list",
       message: "What would you like to do?",
       choices: ["View All Employees", "View All Departments", "View All Roles", "Add an Employee", "Update an Employee",
-        "Add a Role"],
+        "Add a Role","Exit"],
     })
     .then(function (answer) {
       switch (answer.start) {
@@ -51,13 +51,16 @@ function start() {
         case "Add a Role":
           addRole();
           break;
-        default: error()
+        case "Exit":
+          conEnd();
+          break;
       }
     });
 }
 
-function error() {
-  console.log("You must pick an action to continue")
+function conEnd() {
+  console.log("Goodbye!")
+  connection.end()
 }
 
 function viewAllEmployees() {
@@ -106,8 +109,19 @@ function addEmployee() {
       name: "managerid",
       type: "input",
     },
-  ]).then(function(answers){
-    
+  ]).then(function(answer){
+    connection.query(
+      "INSERT INTO employee SET ?",
+      {
+        first_name:answer.firstname,
+        last_name:answer.lastname,
+        role_id:answer.roleid,
+        manager_id:answer.managerid,
+      },function(err) {
+        if (err) throw err;
+        console.log(answer.firstname,answer.lastname + " was successfully added to the list of employees");
+        start();
+      })
   })
 }
 
