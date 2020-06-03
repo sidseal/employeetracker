@@ -25,12 +25,12 @@ connection.connect(function (err) {
 
 function start() {
   inquirer.prompt({
-      name: "start",
-      type: "list",
-      message: "What would you like to do?",
-      choices: ["View All Employees", "View All Departments", "View All Roles", "Add an Employee", "Update an Employee",
-        "Add a Role","Exit"],
-    })
+    name: "start",
+    type: "list",
+    message: "What would you like to do?",
+    choices: ["View All Employees", "View All Departments", "View All Roles", "Add an Employee", "Update an Employee",
+      "Add a Role", "Exit"],
+  })
     .then(function (answer) {
       switch (answer.start) {
         case "View All Employees":
@@ -90,14 +90,14 @@ function viewAllRoles() {
 function addEmployee() {
   inquirer.prompt([
     {
-        message: "What is the employee's first name?",
-        name: "firstname",
-        type: "input",
+      message: "What is the employee's first name?",
+      name: "firstname",
+      type: "input",
     },
     {
-        message: "What is the employee's last name?",
-        name: "lastname",
-        type: "input",
+      message: "What is the employee's last name?",
+      name: "lastname",
+      type: "input",
     },
     {
       message: "What is the employee's role ID?",
@@ -109,31 +109,56 @@ function addEmployee() {
       name: "managerid",
       type: "input",
     },
-  ]).then(function(answer){
+  ]).then(function (answer) {
     connection.query(
       "INSERT INTO employee SET ?",
       {
-        first_name:answer.firstname,
-        last_name:answer.lastname,
-        role_id:answer.roleid,
-        manager_id:answer.managerid,
-      },function(err) {
+        first_name: answer.firstname,
+        last_name: answer.lastname,
+        role_id: answer.roleid,
+        manager_id: answer.managerid,
+      }, function (err) {
         if (err) throw err;
-        console.log(answer.firstname,answer.lastname + " was successfully added to the list of employees");
+        console.log(answer.firstname, answer.lastname + " was successfully added to the list of employees");
         start();
       })
   })
 }
 
-function updateEmployee(){
+function updateEmployee() {
   inquirer.prompt([
     {
-        message: "Which employee would you like to update? Please enter ID number",
-        name: "empid",
-        type: "input",
+      message: "Which employee would you like to update? Please enter ID number",
+      name: "empid",
+      type: "input",
+    },
+    {
+      message: "Which value would you like to update?",
+      name: "update",
+      type: "list",
+      choices: ["Name", "Role-iD", "Manager-iD","Delete Employee","Exit"],
     },
   ])
-}
+    .then(function (answer) {
+      switch (answer.update) {
+        case "Name":
+          updateName();
+          break;
+        case "Role-iD":
+          updateRoleid();
+          break;
+        case "Manager-iD":
+          updateManagerid();
+          break;
+        case "Delete Employee":
+          deleteEmp();
+          break;  
+        case "Exit":
+          conEnd();
+          break;
+      }
+    })
+  }
 
 
 
