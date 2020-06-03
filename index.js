@@ -136,7 +136,7 @@ function updateEmployee() {
       message: "Which value would you like to update?",
       name: "update",
       type: "list",
-      choices: ["Name", "Role-iD", "Manager-iD","Delete Employee","Exit"],
+      choices: ["Name", "Role-iD", "Manager-iD", "Delete Employee", "Exit"],
     },
   ])
     .then(function (answer) {
