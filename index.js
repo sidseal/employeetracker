@@ -28,7 +28,7 @@ function start() {
     name: "start",
     type: "list",
     message: "What would you like to do?",
-    choices: ["View All Employees", "View All Departments", "View All Roles", "Add an Employee", "Update an Employee",
+    choices: ["View All Employees", "View All Departments", "View All Roles", "Add an Employee", "Delete an employee", "Update an Employee",
       "Add a Role", "Exit"],
   })
     .then(function (answer) {
@@ -50,6 +50,9 @@ function start() {
           break;
         case "Add a Role":
           addRole();
+          break;
+        case "Delete an employee":
+          removeEmp()
           break;
         case "Exit":
           conEnd();
@@ -125,40 +128,152 @@ function addEmployee() {
   })
 }
 
-function updateEmployee() {
+function removeEmp (){
   inquirer.prompt([
     {
-      message: "Which employee would you like to update? Please enter ID number",
-      name: "empid",
+      message: "What is the employee's ID?",
+      name: "id",
       type: "input",
-    },
+    }
+]).then(function(answer){
+  connection.query(
+    "DELETE FROM employee WHERE ?",
     {
-      message: "Which value would you like to update?",
-      name: "update",
-      type: "list",
-      choices: ["Name", "Role-iD", "Manager-iD", "Delete Employee", "Exit"],
-    },
-  ])
-    .then(function (answer) {
-      switch (answer.update) {
-        case "Name":
-          updateName();
-          break;
-        case "Role-iD":
-          updateRoleid();
-          break;
-        case "Manager-iD":
-          updateManagerid();
-          break;
-        case "Delete Employee":
-          deleteEmp();
-          break;  
-        case "Exit":
-          conEnd();
-          break;
-      }
-    })
-  }
+      id: answer.id,
+    },function (err) {
+      if (err) throw err;
+      console.log("Employee was successfully deleted.")
+      start()
+    }
+  )}
+)}
+// function updateEmployee() {
+//   inquirer.prompt([
+//     {
+//       message: "Which employee would you like to update? Please enter ID number",
+//       name: "empid",
+//       type: "input",
+//     },
+//     {
+//       message: "Which value would you like to update?",
+//       name: "update",
+//       type: "list",
+//       choices: ["First Name", "Last Name", "Role-iD", "Manager-iD", "Delete Employee", "Start", "Exit"],
+//     },
+//   ])
+//     .then(function (answer) {
+//       switch (answer.update) {
+//         case "First Name":
+//           updateName();
+//           break;
+//         case "Last Name":
+//           updateLName();
+//           break;
+//         case "Role-iD":
+//           updateRoleid();
+//           break;
+//         case "Manager-iD":
+//           updateManagerid();
+//           break;
+//         case "Delete Employee":
+//           deleteEmp();
+//           break;
+//         case "Start":
+//           start();
+//           break;
+//         case "Exit":
+//           conEnd();
+//           break;  
+//       }    
+//     });
+//     function updateName(answer) {
+//       connection.query(
+//         "UPDATE employee SET ? WHERE employee.id ="
+//         [
+//           {
+//             first_name: answer.update
+//           },
+//           {
+//             id: answer.empid
+//           }
+//         ],
+//         function(error) {
+//           if (error) throw err;
+//           console.log("First name updated successfully!");
+//           console.table(results)
+//           updateEmployee();
+//         }
+//       )
+//     }
 
-
-
+//     function updateLName(answer){
+//     connection.query(
+//       "UPDATE employee SET ? WHERE ?",
+//       [
+//         {
+//           last_name: answer.update
+//         },
+//         {
+//           id: answer.empid
+//         }
+//       ],
+//       function(error) {
+//         if (error) throw err;
+//         console.log("Last name updated successfully!");
+//         updateEmployee();
+//       }
+//     )
+//    }
+//     function updateRoleid(answer){
+//     connection.query(
+//       "UPDATE employee SET ? WHERE ?",
+//       [
+//         {
+//           role_id: answer.update
+//         },
+//         {
+//           id: answer.empid
+//         }
+//       ],
+//       function(error) {
+//         if (error) throw err;
+//         console.log("Role-iD updated successfully!");
+//         updateEmployee();
+//       }
+//     )
+//     }
+//     function updateManagerid(answer){
+//     connection.query(
+//       "UPDATE employee SET ? WHERE ?",
+//       [
+//         {
+//           manager_id: answer.update
+//         },
+//         {
+//           id: answer.empid
+//         }
+//       ],
+//       function(error) {
+//         if (error) throw err;
+//         console.log("Manager-iD updated successfully!");
+//         updateEmployee();
+//       }
+//     )
+//     }
+//     function deleteEmp(answer){
+//     connection.query(
+//       "DELETE FROM employee WHERE ?",
+//       [
+//         {
+//           id: answer.empid
+//         }
+//       ],
+//       function(error) {
+//         if (error) throw err;
+//         console.log("Employee deleted successfully!");
+//         updateEmployee();
+//       }
+//     )
+//   }
+// }
+  
