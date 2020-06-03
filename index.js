@@ -125,4 +125,15 @@ function addEmployee() {
   })
 }
 
+function updateEmployee(){
+  inquirer.prompt([
+    {
+        message: "Which employee would you like to update? Please enter ID number",
+        name: "empid",
+        type: "input",
+    },
+  ])
+}
+
+
 
